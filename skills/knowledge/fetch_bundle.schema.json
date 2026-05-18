@@ -1,0 +1,218 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://account360.local/schemas/fetch_bundle.schema.json",
+  "title": "Account360 Fetch Bundle",
+  "description": "Unified machine-readable output for CRM Specialist + Research Specialist fetch skills before Compose_* steps.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "account", "fetched_at", "sections", "missing_data"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "account": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["salesforce_account_id"],
+      "properties": {
+        "salesforce_account_id": { "type": "string", "minLength": 1 },
+        "account_name": { "type": "string" },
+        "record_url": { "type": "string", "format": "uri" }
+      }
+    },
+    "fetched_at": { "type": "string", "format": "date-time" },
+    "sections": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "customer_business",
+        "commercial",
+        "growth_and_value",
+        "risks_and_health",
+        "interaction_log",
+        "external_intelligence"
+      ],
+      "properties": {
+        "customer_business": { "$ref": "#/$defs/customer_business" },
+        "commercial": { "$ref": "#/$defs/commercial" },
+        "growth_and_value": { "$ref": "#/$defs/growth_and_value" },
+        "risks_and_health": { "$ref": "#/$defs/risks_and_health" },
+        "interaction_log": { "$ref": "#/$defs/interaction_log" },
+        "external_intelligence": { "$ref": "#/$defs/external_intelligence" }
+      }
+    },
+    "missing_data": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/missing_item" }
+    },
+    "fetch_provenance": {
+      "type": "object",
+      "description": "Optional per-section source hints for synthesis and citations.",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "missing_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section", "field", "severity"],
+      "properties": {
+        "section": {
+          "type": "string",
+          "enum": [
+            "customer_business",
+            "commercial",
+            "growth_and_value",
+            "risks_and_health",
+            "interaction_log",
+            "external_intelligence"
+          ]
+        },
+        "field": { "type": "string" },
+        "severity": {
+          "type": "string",
+          "enum": ["blocking", "warning", "info"]
+        },
+        "note": { "type": "string" }
+      }
+    },
+    "customer_business": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "industry": { "type": "string" },
+        "country_or_regions": { "type": "string" },
+        "company_summary_one_line": { "type": "string" },
+        "how_they_operate_through_bob_one_line": { "type": "string" },
+        "strategic_developments": { "type": "string" },
+        "employee_band_or_size_hint": { "type": "string" }
+      }
+    },
+    "commercial": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "arr_amount": { "type": "string", "description": "Raw or formatted ARR as returned by source." },
+        "arr_currency": { "type": "string" },
+        "segment": { "type": "string" },
+        "renewal_date_or_quarter": { "type": "string" },
+        "contract_period_start": { "type": "string" },
+        "contract_period_end": { "type": "string" },
+        "account_owner_name": { "type": "string" },
+        "commercial_status_line": {
+          "type": "string",
+          "description": "expansion | neutral | renewal_risk or free-text normalized by fetch layer."
+        },
+        "renewal_attention": { "type": "boolean", "description": "True when renewal is close per business rules." },
+        "tier_or_pepm_notes": { "type": "string" },
+        "billing_groups_per_module_notes": { "type": "string" },
+        "contractor_blue_collar_conditions": { "type": "string" }
+      }
+    },
+    "growth_and_value": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "active_users_or_band": { "type": "string" },
+        "quoted_employees": { "type": "string" },
+        "adoption_by_module": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["module"],
+            "properties": {
+              "module": { "type": "string" },
+              "status_or_pct": { "type": "string" },
+              "notes": { "type": "string" }
+            }
+          }
+        },
+        "adoption_trend_signal": {
+          "type": "string",
+          "enum": ["up", "flat", "down", "unknown"]
+        },
+        "value_risk_flag": { "type": "boolean" },
+        "upsell_opportunities_notes": { "type": "string" },
+        "events_timeline_notes": { "type": "string" }
+      }
+    },
+    "risks_and_health": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "risk_severity": {
+          "type": "string",
+          "enum": ["none", "low", "medium", "high", "critical", "unknown"]
+        },
+        "risk_reason_short": { "type": "string" },
+        "arr_at_risk_or_impact": { "type": "string" },
+        "mitigation_owner_or_latest_action": { "type": "string" },
+        "competitor_evaluation_stage": { "type": "string" },
+        "related_support_tickets_summary": { "type": "string" }
+      }
+    },
+    "interaction_log": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "touchpoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["occurred_at", "summary"],
+            "properties": {
+              "occurred_at": { "type": "string", "description": "ISO date or source-native date string." },
+              "channel": {
+                "type": "string",
+                "enum": ["gong", "email", "meeting_notes", "crm_task", "other"]
+              },
+              "summary": { "type": "string" },
+              "next_step_owner": { "type": "string" },
+              "attendees_or_stakeholders": { "type": "string" }
+            }
+          }
+        },
+        "latest_strategic_summary": { "type": "string" },
+        "challenges_module_focus": { "type": "string" },
+        "collaboration_next_steps": { "type": "string" }
+      }
+    },
+    "external_intelligence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "company_snapshot_plain": {
+          "type": "string",
+          "description": "2–5 lines public-context snapshot."
+        },
+        "recent_signal_one_line": { "type": "string" },
+        "signal_topics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "acquisition",
+              "layoffs",
+              "leadership_change",
+              "funding",
+              "ipo_readiness",
+              "other"
+            ]
+          }
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "unknown"]
+        },
+        "sources_are_public_only": { "type": "boolean", "default": true },
+        "ai_search_synthesis": {
+          "type": "string",
+          "description": "Optional pre-synthesized web insight when AI_Search_Synthesis skill is enabled."
+        }
+      }
+    }
+  }
+}

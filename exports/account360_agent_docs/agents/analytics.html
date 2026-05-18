@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Analytics — Account 360</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <a href="../index.html">Home</a>
+      <span class="meta">Analytics / Tracking</span>
+    </nav>
+
+    <article class="card">
+      <div class="eyebrow">Agent</div>
+      <h1>Analytics / Tracking</h1>
+      <p class="lead">
+        Tracks prep adoption, meeting-type mix, prep-vs-outcome quality, and trends over time. Often starts as manual paste rows until connectors land.
+      </p>
+      <div class="divider"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Purpose</th>
+            <th>Primary input</th>
+            <th>Primary output</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Append_Metrics_Row</strong></td>
+            <td>Adds one canonical analytics row</td>
+            <td><code>Emit_Outcome_Record</code> fields</td>
+            <td>Tab-separated or spreadsheet row</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/POST_MEETING_FLOW.md">POST_MEETING_FLOW.md</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="note">
+        Column schema stays organization-specific; align headers with your Excel tracker before automating.
+      </p>
+    </article>
+  </div>
+</body>
+</html>

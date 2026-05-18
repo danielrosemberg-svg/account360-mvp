@@ -1,0 +1,27 @@
+Section,Summary Capability (simple),Expected Outcome (what we want to get),Snapshot UX (what should be visible),Light Logic (only if needed),Signals to connect (high level),Louise input (plain language),Priority (Now / Next),Status (Draft / Review / Agreed)
+Customer Business,Give immediate account context before any decision.,CSM understands who the customer is in 10 seconds.,"Top identity block: account name, industry, country, short company summary.",No complex logic. Always show.,Salesforce account profile + lightweight web/company description.,"
+- Company Overview & Business Context
+- Industry, size, regions (ie Global, UK based, EMEA ect) 
+- High-level summary of what matters most to this customer (One line how they operate through Bob)
+- Strategic Developments & Direction
+",Now,Draft
+External Intelligence (Research Specialist),"Bring a tiny ""outside-in"" snapshot: who the company is and what recently changed externally.",CSM gets credible company context beyond CRM without digging on Google / LinkdeIn,"2–5 lines: plain-language company snapshot + optional 1-line ""recent signal"" hint (news/funding/move) when found.",No heavy logic—default to short description; only show deeper signals when confidence/simple rules pass.,Public web summaries (company site / trusted news)—no login sites; respect policy limits.,"[Louise: what must never appear vs must always appear—for exec-safe tone]
+
+- Key topics that would be most impactful: Acquisitions, Layoffs, Leadership change, Funding (IPO Readiness) ",Now,Draft
+Commercial,Show commercial posture and renewal readiness.,"CSM knows if this is expansion, neutral, or renewal-risk conversation.","ARR, segment, renewal date/quarter, owner block, simple commercial status line.","If renewal is close, surface a renewal attention cue.","ARR, segment, renewal timing, account ownership.","Snapshot looks good here
+- Contract Period? (Eg Snapshot 1 Jan 2023 - 1 Jan 2027) 
+- In Commercial Overview it would be helpful to include if tiers (if you can get this), at what number 
+EG Tier 1 1,000 - 3,000 EEs 5 PEPM, Tier 2 3,001 - 5,000 4 PEPM
+Commercial Conditions Contractors / Blue Collar, Billing Groups per module - This will help give a clearer picture 
+IE T&A PT, UK, ES ",Now,Draft
+Growth & Value,Show adoption and growth momentum clearly & potential upsells,CSM sees if the account is growing and where to focus value conversation.,"Adoption snapshot, active users trend signal, key growth opportunities line.","If adoption is low or dropping, flag as value-risk.","Active users, quoted employees, module usage, growth by site (when available).","
+- Adoption by module breakdown
+- Upsell Opportunities & ARR (Value Linked per module) 
+Events Timeline - Comp Launch, Performance ect",Now,Draft
+Risks & Health,Connect risk indicators into one action-oriented view ,"CSM understands risk level, business impact, and who needs to be involved next.","Single risk strip: severity, short reason, ARR impact, latest mitigation actions.","If risk is high/critical, prioritize risk panel and show mitigation owner.",Risk severity + risk reason + ARR impact + related SA interactions / support signals.,"- Snapshot looks good here 
+- Competitor Evaluation Stage 
+- If Possible to link Related support tickets (Eg - UKP Tickets logged CFIT's escalated) ",Now,Draft
+Interaction Log,Keep the latest customer narrative visible.,CSM knows what happened recently and what was committed.,"Last key touchpoints with date, short summary, and next step owner.","Show recent items first; if no recent interaction, show clear missing-data prompt.","Gong calls, key emails, meeting notes.","- Latest Business Updates and Startegic Summary
+Stakeholder Updates Attendee visibility (& Title) 
+- Challenges, Module Focus Areas, Adoption Gaps 
+Collaboration & Next Steps ",Now,Draft

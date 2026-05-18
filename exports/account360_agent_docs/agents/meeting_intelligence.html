@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meeting Intelligence — Account 360</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <a href="../index.html">Home</a>
+      <span class="meta">Meeting Intelligence / Orchestrator</span>
+    </nav>
+
+    <article class="card">
+      <div class="eyebrow">Agent</div>
+      <h1>Meeting Intelligence / Orchestrator</h1>
+      <p class="lead">
+        Turns merged fetch data into Snapshot, Full 360, or Meeting Prep; applies
+        meeting-type matrix rules when preparing for calls.
+      </p>
+      <div class="divider"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Purpose</th>
+            <th>Primary input</th>
+            <th>Primary output</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Classify_Meeting_Type</strong></td>
+            <td>Map conversation to Renewal/EBR, Adoption/Risk, Expansion, Onboarding/Escalation</td>
+            <td>User text + CRM hints</td>
+            <td>Normalized type + confidence</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/Meeting_Type_Topic_Matrix.csv">Meeting_Type_Topic_Matrix.csv</a></td>
+          </tr>
+          <tr>
+            <td><strong>Map_Meeting_Type_To_Topics</strong></td>
+            <td>Prioritize sections and guardrails</td>
+            <td>Meeting type key</td>
+            <td>Ordered sections, questions, never-assume list</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/Meeting_Type_Topic_Matrix.csv">Meeting_Type_Topic_Matrix.csv</a></td>
+          </tr>
+          <tr>
+            <td><strong>Compose_Snapshot</strong></td>
+            <td>10-second account pulse</td>
+            <td><code>fetch_bundle</code></td>
+            <td>Structured snapshot markdown</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/COMPOSE_SKILLS.md">COMPOSE_SKILLS.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Compose_Full_360</strong></td>
+            <td>Deep narrative across all sections</td>
+            <td><code>fetch_bundle</code></td>
+            <td>Full brief + sources/gaps</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/COMPOSE_SKILLS.md">COMPOSE_SKILLS.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Compose_Meeting_Prep_Brief</strong></td>
+            <td>Agenda, objectives, NBAs for live calls</td>
+            <td><code>fetch_bundle</code>, meeting type</td>
+            <td>Prep brief markdown</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/COMPOSE_SKILLS.md">COMPOSE_SKILLS.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Recommend_Strategic_Next_Step</strong></td>
+            <td>Single prioritized strategic move</td>
+            <td>Risk + external + commercial signals</td>
+            <td>Action recommendation</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/COMPOSE_SKILLS.md">COMPOSE_SKILLS.md</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </div>
+</body>
+</html>

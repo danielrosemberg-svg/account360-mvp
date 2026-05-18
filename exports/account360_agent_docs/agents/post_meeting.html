@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post-Meeting Agent — Account 360</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <a href="../index.html">Home</a>
+      <span class="meta">Post-Meeting Agent</span>
+    </nav>
+
+    <article class="card">
+      <div class="eyebrow">Agent</div>
+      <h1>Post-Meeting Agent</h1>
+      <p class="lead">
+        Phase 2: consumes Gong/manual notes, scores objective achievement vs prep, emits outcome rows for analytics.
+      </p>
+      <div class="divider"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Purpose</th>
+            <th>Primary input</th>
+            <th>Primary output</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Ingest_Meeting_Notes_Or_Gong</strong></td>
+            <td>Structure recap text into decisions and owners</td>
+            <td>Raw transcript or summary</td>
+            <td><code>structured_recap</code></td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/POST_MEETING_FLOW.md">POST_MEETING_FLOW.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Score_Objectives</strong></td>
+            <td>Compare outcomes vs prep brief</td>
+            <td>Prep brief + recap</td>
+            <td>Score JSON</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/POST_MEETING_FLOW.md">POST_MEETING_FLOW.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Emit_Outcome_Record</strong></td>
+            <td>Produce spreadsheet-ready row</td>
+            <td>Scores + metadata</td>
+            <td>CSV / paste-friendly row</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/POST_MEETING_FLOW.md">POST_MEETING_FLOW.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Append_Metrics_Row</strong></td>
+            <td>Optional automation wrapper</td>
+            <td>Outcome record</td>
+            <td>Appended metrics store</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/POST_MEETING_FLOW.md">POST_MEETING_FLOW.md</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </div>
+</body>
+</html>

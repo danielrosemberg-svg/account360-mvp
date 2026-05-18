@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CRM Specialist — Account 360</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <a href="../index.html">Home</a>
+      <span class="meta">CRM Specialist</span>
+    </nav>
+
+    <article class="card">
+      <div class="eyebrow">Agent</div>
+      <h1>CRM Specialist</h1>
+      <p class="lead">
+        Pulls Salesforce-aligned account signals into the unified
+        <strong>fetch_bundle</strong> JSON so Compose steps stay deterministic.
+      </p>
+      <div class="divider"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Purpose</th>
+            <th>Primary input</th>
+            <th>Primary output</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Fetch_Baseline</strong></td>
+            <td>Industry, regions, identity context</td>
+            <td><code>salesforce_account_id</code></td>
+            <td><code>sections.customer_business</code></td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/fetch_bundle.schema.json">fetch_bundle.schema.json</a></td>
+          </tr>
+          <tr>
+            <td><strong>Fetch_Commercials</strong></td>
+            <td>ARR, renewal, segment, ownership</td>
+            <td>Account Id</td>
+            <td><code>sections.commercial</code></td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/fetch_bundle.schema.json">fetch_bundle.schema.json</a></td>
+          </tr>
+          <tr>
+            <td><strong>Fetch_Growth_And_Risk</strong></td>
+            <td>Adoption, modules, risk hooks</td>
+            <td>Account Id</td>
+            <td><code>sections.growth_and_value</code>, <code>sections.risks_and_health</code></td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/fetch_skills_contract.txt">fetch_skills_contract.txt</a></td>
+          </tr>
+          <tr>
+            <td><strong>Fetch_Interaction_Log</strong></td>
+            <td>Recent touchpoints and commitments</td>
+            <td>Account Id</td>
+            <td><code>sections.interaction_log</code></td>
+            <td class="code-path"><a href="../../../Data/mapping/Account360_Snapshot_System_functionality.csv">Snapshot System functionality.csv</a></td>
+          </tr>
+          <tr>
+            <td><strong>Flag_Missing_Data</strong></td>
+            <td>Blocking gaps before customer-facing output</td>
+            <td>Partial bundle</td>
+            <td><code>missing_data[]</code></td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/fetch_bundle.schema.json">fetch_bundle.schema.json</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </div>
+</body>
+</html>

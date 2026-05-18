@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Account Prep Classifier — Account 360</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <a href="../index.html">Home</a>
+      <span class="meta">Account Prep Classifier</span>
+    </nav>
+
+    <article class="card">
+      <div class="eyebrow">Agent</div>
+      <h1>Account Prep Classifier</h1>
+      <p class="lead">
+        Entry skill: parses CSM intake, detects language, classifies output mode and
+        (for Meeting Prep) meeting type using Sure/Not Sure judgments, emits a JSON
+        routing packet before specialists run.
+      </p>
+      <div class="divider"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Purpose</th>
+            <th>Primary input</th>
+            <th>Primary output</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>account360-intake-classifier</strong></td>
+            <td>Validate intake, classify modes/types, emit routing JSON</td>
+            <td>Account Id, free-text intent, optional meeting metadata</td>
+            <td><code>routing_packet</code> JSON</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/account360-intake-classifier.md">account360-intake-classifier.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Knowledge: output modes</strong></td>
+            <td>Definitions for Snapshot vs Full 360 vs Meeting Prep</td>
+            <td>n/a</td>
+            <td>Reference text</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/output_modes.md">output_modes.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Knowledge: meeting matrix</strong></td>
+            <td>Priorities and guardrails per meeting type</td>
+            <td>n/a</td>
+            <td>CSV reference</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/Meeting_Type_Topic_Matrix.csv">Meeting_Type_Topic_Matrix.csv</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="clean">
+        <li>Runs before parallel CRM + Research fetch unless tooling merges classifier + fetch in one Agent Flow.</li>
+        <li>If Meeting Prep is chosen but no meeting type is Sure, downstream Compose_Meeting_Prep_Brief must not run until the CSM confirms.</li>
+      </ul>
+    </article>
+  </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+---
+description: Where to save data-mapping vs demos vs Desktop mirror (Daniel)
+alwaysApply: true
+---
+
+# Data mapping & demos (Daniel)
+
+## Data mapping (canonical)
+
+All **Account 360 data mapping** workfiles (CSV, XLSX, field maps, Louise collaboration sheets):
+
+- **`Data/mapping/`** at project root — this is the **single working source of truth**.
+- Do **not** leave new mapping artefacts only under `exports/`. Reserve `exports/` for **standalone HTML/PPTX launcher-style** artefacts unless the user says otherwise.
+
+## Version history (milestones)
+
+When producing a **new milestone** snapshot of mapping (after meaningful changes), **also** copy the current contents of `Data/mapping/` to:
+
+- **`Account 360 Demo versions/YYYY-MM-DD_data-mapping/`** (use authoritative date from user context).
+
+Keep filenames stable inside that folder so diffs stay readable.
+
+## Desktop mirror
+
+After writing or updating mapping files under `Data/mapping/`, **mirror the same files** to:
+
+- **`/Users/daniel.rosemberg/Desktop/Account 360 MVP/Data/mapping/`**
+
+So Daniel’s organized Desktop workspace stays aligned with git.
+
+Use `mkdir -p` and `cp` (or rsync). Do **not** invent alternate Desktop folders unless Daniel asks.
+

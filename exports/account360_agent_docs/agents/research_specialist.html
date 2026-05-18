@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research Specialist — Account 360</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <a href="../index.html">Home</a>
+      <span class="meta">Research Specialist</span>
+    </nav>
+
+    <article class="card">
+      <div class="eyebrow">Agent</div>
+      <h1>Research Specialist</h1>
+      <p class="lead">
+        Adds credible outside-in context from public sources only; fills
+        <strong>sections.external_intelligence</strong> in the fetch bundle.
+      </p>
+      <div class="divider"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Purpose</th>
+            <th>Primary input</th>
+            <th>Primary output</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Scrape_Or_Summarize_Company_Context</strong></td>
+            <td>Short company snapshot from site / public blurbs</td>
+            <td>Company name, domain hints</td>
+            <td><code>company_snapshot_plain</code>, confidence</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/fetch_bundle.schema.json">fetch_bundle.schema.json</a></td>
+          </tr>
+          <tr>
+            <td><strong>Market_Signals_Light</strong></td>
+            <td>Funding, leadership, layoffs, M&amp;A hints</td>
+            <td>Public news summaries</td>
+            <td><code>recent_signal_one_line</code>, <code>signal_topics[]</code></td>
+            <td class="code-path"><a href="../../../Data/mapping/Account360_Snapshot_System_functionality.csv">Snapshot System functionality.csv</a></td>
+          </tr>
+          <tr>
+            <td><strong>AI_Search_Synthesis</strong></td>
+            <td>Optional deeper synthesis (policy gated)</td>
+            <td>Query + account context</td>
+            <td><code>ai_search_synthesis</code></td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/COMPOSE_SKILLS.md">COMPOSE_SKILLS.md</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </div>
+</body>
+</html>

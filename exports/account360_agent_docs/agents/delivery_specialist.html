@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delivery Specialist — Account 360</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <a href="../index.html">Home</a>
+      <span class="meta">Delivery Specialist</span>
+    </nav>
+
+    <article class="card">
+      <div class="eyebrow">Agent</div>
+      <h1>Delivery Specialist</h1>
+      <p class="lead">
+        Presents the three customer-facing modes and formats output for UI, docs,
+        or downstream channels.
+      </p>
+      <div class="divider"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Purpose</th>
+            <th>Primary input</th>
+            <th>Primary output</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Present_Mode_Selector</strong></td>
+            <td>Offer Snapshot, Full 360, Meeting Prep paths</td>
+            <td>User session</td>
+            <td>Mode choice or confirmation</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/COMPOSE_SKILLS.md">COMPOSE_SKILLS.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Format_For_UI_Or_Doc</strong></td>
+            <td>Markdown sections, collapsibles, export-ready layout</td>
+            <td>Compose output</td>
+            <td>Formatted deliverable</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/COMPOSE_SKILLS.md">COMPOSE_SKILLS.md</a></td>
+          </tr>
+          <tr>
+            <td><strong>Route_To_Channel</strong></td>
+            <td>Future push to Slack/email/docs</td>
+            <td>Formatted deliverable</td>
+            <td>Posted payload / handoff</td>
+            <td class="code-path"><a href="../../../Data/mapping/agent_flow/POST_MEETING_FLOW.md">POST_MEETING_FLOW.md</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Account 360 — Agent &amp; Skills docs</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <span class="meta">Account 360 Agent Flow reference</span>
+    </nav>
+
+    <article class="card">
+      <div class="eyebrow">Intelligence architecture</div>
+      <h1>Agents and skills</h1>
+      <p class="lead">
+        One page per agent with skill tables. Canonical specs live under
+        <code>Data/mapping/agent_flow/</code> in the repo.
+      </p>
+      <div class="divider"></div>
+
+      <div class="agent-grid">
+        <div class="agent-row">
+          <div>
+            <strong><a href="agents/account_prep_classifier.html">Account Prep Classifier</a></strong>
+            <span class="meta"> — Intake, Sure/Not Sure routing packet</span>
+          </div>
+          <span class="meta">Entry</span>
+        </div>
+        <div class="agent-row">
+          <div>
+            <strong><a href="agents/crm_specialist.html">CRM Specialist</a></strong>
+            <span class="meta"> — Salesforce-aligned fetch skills</span>
+          </div>
+          <span class="meta">Parallel data</span>
+        </div>
+        <div class="agent-row">
+          <div>
+            <strong><a href="agents/research_specialist.html">Research Specialist</a></strong>
+            <span class="meta"> — External intelligence</span>
+          </div>
+          <span class="meta">Parallel data</span>
+        </div>
+        <div class="agent-row">
+          <div>
+            <strong><a href="agents/meeting_intelligence.html">Meeting Intelligence / Orchestrator</a></strong>
+            <span class="meta"> — Classification mapping, compose modes</span>
+          </div>
+          <span class="meta">Brain</span>
+        </div>
+        <div class="agent-row">
+          <div>
+            <strong><a href="agents/delivery_specialist.html">Delivery Specialist</a></strong>
+            <span class="meta"> — Mode selector, formatting, channels</span>
+          </div>
+          <span class="meta">Last mile</span>
+        </div>
+        <div class="agent-row">
+          <div>
+            <strong><a href="agents/post_meeting.html">Post-Meeting Agent</a></strong>
+            <span class="meta"> — Notes ingest, scoring, outcome row</span>
+          </div>
+          <span class="meta">Phase 2</span>
+        </div>
+        <div class="agent-row">
+          <div>
+            <strong><a href="agents/analytics.html">Analytics / Tracking</a></strong>
+            <span class="meta"> — Metrics append</span>
+          </div>
+          <span class="meta">Phase 2</span>
+        </div>
+      </div>
+
+      <p class="note">
+        Relative paths to repo sources from this folder use
+        <span class="code-path">../../Data/mapping/agent_flow/</span>
+      </p>
+    </article>
+  </div>
+</body>
+</html>
