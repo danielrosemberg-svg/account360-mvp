@@ -74,7 +74,6 @@ SOQL:
 SELECT Id, Name, Account_Status__c, OwnerId, Owner.Name, Owner.Email
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in |
@@ -106,7 +105,6 @@ SELECT
     Open_Churn_Requests__c
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -139,7 +137,6 @@ FROM Opportunity
 WHERE AccountId = '{ACCOUNT_ID}'
   AND IsClosed = false
 ORDER BY CloseDate ASC
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -158,7 +155,6 @@ FROM Task
 WHERE WhatId = '{ACCOUNT_ID}'
   AND ActivityDate >= LAST_N_DAYS:60
 ORDER BY ActivityDate DESC
-LIMIT 5
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -183,7 +179,6 @@ SELECT
     Renewal_Manager__c, Account_Manager__c
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -210,7 +205,6 @@ WHERE AccountId = '{ACCOUNT_ID}'
   AND Status != 'Closed'
   AND Priority IN ('High', 'Critical')
 ORDER BY CreatedDate DESC
-LIMIT 5
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -239,7 +233,6 @@ SELECT
     Open_Churn_Requests__c, NPS__c, Advocacy_Status__c
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -281,7 +274,6 @@ FROM Opportunity
 WHERE AccountId = '{ACCOUNT_ID}'
   AND IsClosed = false
 ORDER BY CloseDate ASC
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -312,7 +304,6 @@ SELECT
     Customer_Is_Live__c
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -360,7 +351,6 @@ SELECT
     Industry, BillingCountry, Customer_Is_Live__c
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -396,7 +386,6 @@ FROM Opportunity
 WHERE AccountId = '{ACCOUNT_ID}'
   AND IsClosed = false
 ORDER BY CloseDate ASC
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -429,7 +418,6 @@ SELECT
     Active_Users__c
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -449,7 +437,6 @@ SELECT Id, Name, Title, Email
 FROM Contact
 WHERE AccountId = '{ACCOUNT_ID}'
 ORDER BY CreatedDate ASC
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -467,7 +454,6 @@ FROM Task
 WHERE WhatId = '{ACCOUNT_ID}'
   AND ActivityDate >= LAST_N_DAYS:90
 ORDER BY ActivityDate DESC
-LIMIT 5
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -493,7 +479,6 @@ SELECT
     Customer_Is_Live__c, NPS__c, Advocacy_Status__c
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -517,7 +502,6 @@ FROM Task
 WHERE WhatId = '{ACCOUNT_ID}'
   AND ActivityDate >= LAST_N_DAYS:60
 ORDER BY ActivityDate DESC
-LIMIT 5
 ```
 
 | Field Label | API Name | Used in Use Cases |
@@ -546,7 +530,6 @@ FROM Gong__Gong_Call__c
 WHERE AccountId = '{ACCOUNT_ID}'
   AND gong_call_start_c >= LAST_N_DAYS:30
 ORDER BY gong_call_start_c DESC
-LIMIT 2
 ```
 
 | Field Label | API Name | Purpose |

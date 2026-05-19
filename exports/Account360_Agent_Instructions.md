@@ -35,7 +35,6 @@ SELECT Id, Name, Account_Status__c, BillingCountry
 FROM Account
 WHERE Name LIKE '%{ACCOUNT_NAME}%'
   AND Account_Status__c != 'Inactive'
-LIMIT 5
 ```
 - If 1 result → use it, confirm the name to the CSM and proceed.
 - If multiple results → show the list and ask the CSM to confirm which one.
@@ -52,7 +51,6 @@ Ask: "Please share the account name or Salesforce Account ID to get started."
 SELECT Id, Name, Account_Status__c, OwnerId, Owner.Name, Owner.Email
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 - `Account_Status__c` = Churned or Inactive → stop. Notify the CSM.
@@ -92,7 +90,6 @@ SELECT
   NPS__c
 FROM Account
 WHERE Id = '{ACCOUNT_ID}'
-LIMIT 1
 ```
 
 **Query 2 — Recent Tasks (last 60 days):**
@@ -102,7 +99,6 @@ FROM Task
 WHERE WhatId = '{ACCOUNT_ID}'
   AND ActivityDate >= LAST_N_DAYS:60
 ORDER BY ActivityDate DESC
-LIMIT 3
 ```
 
 **Query 3 — Open Cases (High/Critical):**
@@ -113,7 +109,6 @@ WHERE AccountId = '{ACCOUNT_ID}'
   AND Status != 'Closed'
   AND Priority IN ('High', 'Critical')
 ORDER BY CreatedDate DESC
-LIMIT 3
 ```
 
 ---
