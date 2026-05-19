@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Account 360</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#f1f5f9;color:#111;line-height:1.5}
+header{display:flex;align-items:center;gap:.75rem;padding:1rem 1.5rem;background:#0f172a;color:#fff}
+.brand{font-weight:700;font-size:1.05rem;color:#fff;cursor:pointer}
+.tag{font-size:.72rem;border:1px solid rgba(255,255,255,.35);padding:.1rem .5rem;border-radius:999px;opacity:.85}
+.container{max-width:56rem;margin:0 auto;padding:1.5rem 1rem 4rem}
+.card{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+h1{margin-top:0;font-size:1.4rem}
+h2{margin-top:0;font-size:1.05rem;color:#1e293b}
+.muted{color:#64748b;font-size:.9rem}
+.search-form{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
+.search-form input{flex:1 1 16rem;padding:.55rem .8rem;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem}
+.search-form button{padding:.55rem 1.25rem;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer}
+.search-form button:hover{background:#1d4ed8}
+.result-item{display:flex;justify-content:space-between;align-items:center;padding:.8rem 0;border-bottom:1px solid #f1f5f9;cursor:pointer}
+.result-item:last-child{border-bottom:none}
+.result-item:hover{background:#f8fafc;border-radius:8px;padding-left:.5rem}
+.result-name{font-weight:600}
+.result-meta{font-size:.83rem;color:#64748b}
+.back-link{display:inline-flex;align-items:center;gap:.3rem;color:#2563eb;font-size:.9rem;margin-bottom:1rem;cursor:pointer}
+.back-link:hover{text-decoration:underline}
+.acct-name{font-size:1.5rem;font-weight:700;margin:0 0 .25rem}
+.acct-sub{font-size:.9rem;color:#64748b;margin:0 0 .75rem}
+.badges{display:flex;gap:.4rem;flex-wrap:wrap}
+.badge{display:inline-block;padding:.15rem .6rem;border-radius:999px;font-size:.75rem;font-weight:600}
+.red{background:#fee2e2;color:#dc2626}
+.orange{background:#ffedd5;color:#c2410c}
+.yellow{background:#fef9c3;color:#b45309}
+.green{background:#dcfce7;color:#15803d}
+.gray{background:#f1f5f9;color:#475569}
+.tabs{display:flex;border-bottom:2px solid #e2e8f0;margin-bottom:1.5rem}
+.tab-btn{padding:.65rem 1.25rem;border:none;background:none;font-size:.95rem;font-weight:500;color:#64748b;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab-btn.active{color:#2563eb;border-bottom-color:#2563eb;font-weight:700}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.75rem 1.5rem;margin-top:.5rem}
+.field .label{font-size:.73rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em}
+.field .val{font-size:.95rem;font-weight:500;margin-top:.1rem}
+.modules{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.3rem}
+.mod{background:#eff6ff;color:#1d4ed8;font-size:.75rem;padding:.15rem .5rem;border-radius:6px}
+.signal{background:#f8fafc;border-left:3px solid #2563eb;border-radius:0 8px 8px 0;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+.signal.danger{border-color:#dc2626;background:#fff5f5}
+.signal.success{border-color:#16a34a;background:#f0fdf4}
+.risk-box{background:#fef9c3;border:1px solid #fde047;border-radius:8px;padding:.75rem 1rem;font-size:.88rem;margin-top:.75rem;color:#713f12}
+.future{font-size:.7rem;background:#f1f5f9;color:#94a3b8;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem}
+.meeting-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-top:1rem}
+.mt-card{border:2px solid #e2e8f0;border-radius:10px;padding:1rem;cursor:pointer;transition:all .15s}
+.mt-card:hover,.mt-card.selected{border-color:#2563eb;background:#eff6ff}
+.mt-icon{font-size:1.5rem;margin-bottom:.3rem}
+.mt-name{font-weight:700;font-size:.95rem}
+.mt-desc{font-size:.78rem;color:#64748b;margin-top:.2rem}
+.brief-section{border-left:3px solid #e2e8f0;padding-left:1rem;margin-bottom:1.25rem}
+.brief-section h3{margin:0 0 .4rem;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:#64748b}
+.brief-section ul{margin:.25rem 0;padding-left:1.25rem;font-size:.92rem}
+.brief-section ul li{margin-bottom:.3rem}
+.empty{text-align:center;padding:2.5rem;color:#64748b}
+.spinner{text-align:center;padding:2rem;color:#64748b}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="brand" onclick="showSearch()">Account 360</span>
+  <span class="tag">Demo</span>
+</header>
+
+<main class="container" id="app">
+  <div id="page-search">
+    <div class="card">
+      <h1>Find an account</h1>
+      <p class="muted">Search by <strong>account name</strong> (partial match) or <strong>Bob company ID</strong> (exact).</p>
+      <div class="search-form">
+        <input type="search" id="search-input" placeholder="e.g. Finalto or 303038" autocomplete="off"/>
+        <button onclick="doSearch()">Search</button>
+      </div>
+    </div>
+    <div id="search-results"></div>
+  </div>
+
+  <div id="page-detail" style="display:none"></div>
+</main>
+
+<script>
+var APP_URL = window.location.href.split('?')[0];
+
+// ── Search ────────────────────────────────────────────────────
+function doSearch() {
+  var q = document.getElementById('search-input').value.trim();
+  if (!q) return;
+  var el = document.getElementById('search-results');
+  el.innerHTML = '<div class="spinner">Searching...</div>';
+  google.script.run
+    .withSuccessHandler(function(rows) { renderResults(rows, q); })
+    .withFailureHandler(function(e) { el.innerHTML = '<div class="empty">Error: ' + e.message + '</div>'; })
+    .searchAccounts(q);
+}
+
+document.getElementById('search-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doSearch();
+});
+
+function renderResults(rows, q) {
+  var el = document.getElementById('search-results');
+  if (!rows || rows.length === 0) {
+    el.innerHTML = '<div class="card empty"><p>No results for "<strong>' + q + '</strong>"</p><p class="muted">Try a different name or the exact Bob company ID.</p></div>';
+    return;
+  }
+  var html = '<div class="card"><h2>' + rows.length + ' result' + (rows.length > 1 ? 's' : '') + ' for "' + q + '"</h2>';
+  rows.forEach(function(r) {
+    html += '<div class="result-item" onclick="loadAccount(\'' + r.BOB_COMPANY_ID + '\')">';
+    html += '<div><div class="result-name">' + r.ACCOUNT_NAME + '</div>';
+    html += '<div class="result-meta">' + (r.COUNTRY||'') + ' · ' + (r.SEGMENT||'') + ' · ARR ' + (r.ARR||'') + '</div></div>';
+    html += '<span>→</span></div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ── Account detail ─────────────────────────────────────────────
+function loadAccount(id) {
+  document.getElementById('page-search').style.display = 'none';
+  var el = document.getElementById('page-detail');
+  el.style.display = 'block';
+  el.innerHTML = '<div class="spinner">Loading account...</div>';
+  google.script.run
+    .withSuccessHandler(function(a) { renderDetail(a); })
+    .withFailureHandler(function(e) { el.innerHTML = '<div class="empty">Error: ' + e.message + '</div>'; })
+    .getAccountById(id);
+}
+
+function showSearch() {
+  document.getElementById('page-detail').style.display = 'none';
+  document.getElementById('page-search').style.display = 'block';
+}
+
+function renderDetail(a) {
+  if (!a) { document.getElementById('page-detail').innerHTML = '<div class="card empty"><p>Account not found.</p></div>'; return; }
+
+  var health    = String(a.ACCOUNT_HEALTH_SENTIMENT || '');
+  var risk      = String(a.RISK_SEVERITY || '');
+  var live      = String(a.CUSTOMER_IS_LIVE || '').toUpperCase() === 'TRUE';
+  var activeU   = Number(a.ACTIVE_USERS) || 0;
+  var maxEE     = Number(a.MAX_QUOTED_NUMBER_EE) || 0;
+  var pct       = maxEE > 0 ? Math.round(activeU / maxEE * 100) : null;
+  var churn     = Number(a.OPEN_CHURN_REQUESTS) || 0;
+  var totalRisk = Number(a.TOTAL_CUSTOMER_RELATED_RISKS) || 0;
+  var modules   = String(a.PAYING_MODULES || '').split(',').map(function(m){ return m.trim(); }).filter(Boolean);
+
+  var daysToRenewal = null;
+  if (a.MASTER_CONTRACT_END_DATE_C) {
+    var rDate = new Date(a.MASTER_CONTRACT_END_DATE_C);
+    if (!isNaN(rDate)) daysToRenewal = Math.round((rDate - new Date()) / 86400000);
+  }
+
+  function hBadge(h) { return h.toLowerCase().indexOf('high') !== -1 ? 'red' : h.toLowerCase().indexOf('medium') !== -1 ? 'orange' : h.toLowerCase().indexOf('low') !== -1 ? 'yellow' : 'green'; }
+  function rBadge(r) { return r.indexOf('Critical') !== -1 || r.indexOf('High') !== -1 || r.indexOf('🔴') !== -1 ? 'red' : r.indexOf('Medium') !== -1 || r.indexOf('🟠') !== -1 ? 'orange' : r.indexOf('Low') !== -1 || r.indexOf('🟡') !== -1 ? 'yellow' : 'green'; }
+
+  var html = '<span class="back-link" onclick="showSearch()">← Back to search</span>';
+
+  // Header card
+  html += '<div class="card">';
+  html += '<p class="acct-name">' + a.ACCOUNT_NAME + '</p>';
+  html += '<p class="acct-sub">' + (a.COUNTRY||'') + ' · ' + (a.INDUSTRY||'') + ' · Bob ID: ' + a.BOB_COMPANY_ID + '</p>';
+  html += '<div class="badges">';
+  if (health) html += '<span class="badge ' + hBadge(health) + '">' + health + '</span>';
+  if (risk)   html += '<span class="badge ' + rBadge(risk) + '">' + risk + '</span>';
+  html += '<span class="badge ' + (live ? 'green' : 'gray') + '">' + (live ? 'Live on Bob' : 'Not Live') + '</span>';
+  if (daysToRenewal !== null && daysToRenewal <= 90) html += '<span class="badge red">Renewal in ' + daysToRenewal + ' days</span>';
+  if (churn > 0) html += '<span class="badge red">⚠️ ' + churn + ' churn request' + (churn > 1 ? 's' : '') + '</span>';
+  html += '</div></div>';
+
+  // Tabs
+  html += '<div class="tabs">';
+  html += '<button class="tab-btn active" onclick="switchTab(\'snapshot\',this)">📋 Snapshot</button>';
+  html += '<button class="tab-btn" onclick="switchTab(\'full360\',this)">🔍 Full 360</button>';
+  html += '<button class="tab-btn" onclick="switchTab(\'meetingprep\',this)">🤝 Meeting Prep</button>';
+  html += '</div>';
+
+  // ── SNAPSHOT ──
+  html += '<div id="tab-snapshot" class="tab-panel active">';
+  html += '<div class="card"><h2>⚡ Key Signals</h2>';
+  if (churn > 0) html += '<div class="signal danger">⚠️ ' + churn + ' open churn request' + (churn > 1 ? 's' : '') + ' — retention-first approach required</div>';
+  if (daysToRenewal !== null && daysToRenewal <= 90) html += '<div class="signal danger">🗓️ Renewal in <strong>' + daysToRenewal + ' days</strong> (' + (a.QUARTER||'') + ') — pre-renewal flag active</div>';
+  if (pct !== null && pct < 50) html += '<div class="signal danger">📉 Low adoption: ' + pct + '% (' + activeU + '/' + maxEE + ' users)</div>';
+  else if (pct !== null && pct >= 80) html += '<div class="signal success">✅ Strong adoption: ' + pct + '% (' + activeU + '/' + maxEE + ' users) — growth opportunity</div>';
+  else if (pct !== null) html += '<div class="signal">📊 Adoption: ' + pct + '% (' + activeU + '/' + maxEE + ' users)</div>';
+  if (totalRisk > 0 && a['Risk - DESCRIPTION']) html += '<div class="signal danger">🔴 ' + String(a['Risk - DESCRIPTION']).substring(0,160) + '…</div>';
+  html += '</div>';
+
+  html += '<div class="card"><h2>📌 Overview</h2><div class="grid">';
+  html += field('ARR', a.ARR) + field('Renewal Date', a.MASTER_CONTRACT_END_DATE_C) + field('Segment', a.SEGMENT) + field('Country', a.COUNTRY);
+  html += field('Tenure', a.TENURE_YEARS ? a.TENURE_YEARS + ' yrs' : '—') + field('Industry', a.INDUSTRY);
+  html += field('CSM', a.ACCOUNT_OWNER) + field('Renewal Manager', a.RENEWAL_MANAGER);
+  html += '</div>';
+  if (modules.length) html += '<div style="margin-top:1rem"><div class="label" style="font-size:.73rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em">Paying Modules</div><div class="modules">' + modules.map(function(m){ return '<span class="mod">'+m+'</span>'; }).join('') + '</div></div>';
+  html += '</div>';
+  html += '<div class="card"><h2>🌐 External Context <span class="future">Future</span></h2><p class="muted">Company research via Tavily — public summary + recent signals (last 90 days).</p></div>';
+  html += '</div>'; // end snapshot
+
+  // ── FULL 360 ──
+  html += '<div id="tab-full360" class="tab-panel">';
+  html += '<div class="card"><h2>🏢 Customer Business</h2><div class="grid">';
+  html += field('Account Name', a.ACCOUNT_NAME) + field('Country', a.COUNTRY) + field('Industry', a.INDUSTRY) + field('Bob Company ID', a.BOB_COMPANY_ID);
+  html += '</div><div style="margin-top:.75rem;background:#f8fafc;border-radius:8px;padding:.6rem .9rem;font-size:.85rem;color:#64748b">👥 <strong>Personas in last call</strong> <span class="future">Future — Gong</span></div></div>';
+
+  html += '<div class="card"><h2>💰 Commercial</h2><div class="grid">';
+  html += field('ARR', a.ARR) + field('Segment', a.SEGMENT) + field('Renewal Date', a.MASTER_CONTRACT_END_DATE_C) + field('Renewal Quarter', a.QUARTER);
+  html += field('Tenure', a.TENURE_YEARS ? a.TENURE_YEARS + ' yrs' : '—') + field('Live on Bob', live ? 'Yes' : 'No');
+  html += field('CSM', a.ACCOUNT_OWNER) + field('Renewal Manager', a.RENEWAL_MANAGER) + field('Account Manager', a.ACCOUNT_MANAGER);
+  html += '</div></div>';
+
+  html += '<div class="card"><h2>⚠️ Risks & Health</h2><div class="grid">';
+  html += '<div class="field"><div class="label">Health Sentiment</div><div class="val"><span class="badge ' + hBadge(health) + '">' + (health||'—') + '</span></div></div>';
+  html += '<div class="field"><div class="label">Risk Severity</div><div class="val"><span class="badge ' + rBadge(risk) + '">' + (risk||'—') + '</span></div></div>';
+  html += field('Open Churn Requests', a.OPEN_CHURN_REQUESTS || '0') + field('Total Risk Items', a.TOTAL_CUSTOMER_RELATED_RISKS || '0');
+  html += '</div>';
+  if (a['Risk - DESCRIPTION']) html += '<div class="risk-box"><strong>Risk Description:</strong><br>' + String(a['Risk - DESCRIPTION']).replace(/\n/g,'<br>') + '</div>';
+  html += '</div>';
+
+  html += '<div class="card"><h2>📈 Growth & Value</h2><div class="grid">';
+  html += field('Active Users', activeU || '—') + field('Licensed (Max EE)', maxEE || '—');
+  if (pct !== null) html += '<div class="field"><div class="label">Adoption %</div><div class="val"><span class="badge ' + (pct >= 80 ? 'green' : pct < 50 ? 'red' : 'yellow') + '">' + pct + '%</span></div></div>';
+  html += '</div>';
+  if (modules.length) html += '<div style="margin-top:.75rem"><div class="label" style="font-size:.73rem;color:#64748b;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem">Paying Modules</div><div class="modules">' + modules.map(function(m){ return '<span class="mod">'+m+'</span>'; }).join('') + '</div></div>';
+  html += '<div style="margin-top:.75rem;background:#f8fafc;border-radius:8px;padding:.6rem .9rem;font-size:.85rem;color:#64748b">📍 <strong>Active users per site</strong> <span class="future">Future</span></div></div>';
+
+  html += '<div class="card"><h2>📞 Interaction Log <span class="future">Future — Gong</span></h2><p class="muted">Last 3 Gong call titles, dates and highlights will appear here.</p></div>';
+  html += '<div class="card"><h2>🌐 External Intelligence <span class="future">Future — Tavily</span></h2><p class="muted">Company summary + recent signals via public web research.</p></div>';
+  html += '</div>'; // end full360
+
+  // ── MEETING PREP ──
+  html += '<div id="tab-meetingprep" class="tab-panel">';
+  html += '<div class="card"><h2>🎯 Select Meeting Type</h2><div class="meeting-types">';
+  html += mtCard('renewal','📋','Renewal & EBR','Renewal, contract, QBR, executive review');
+  html += mtCard('risk','⚠️','Risk & Adoption','Health check, usage drop, risk review');
+  html += mtCard('expansion','🚀','Expansion','Upsell, cross-sell, new modules');
+  html += mtCard('onboarding','🛠️','Onboarding / Escalation','Go-live, kickoff, escalation');
+  html += '</div></div>';
+  html += '<div id="brief-container"></div>';
+  html += '</div>'; // end meetingprep
+
+  document.getElementById('page-detail').innerHTML = html;
+
+  // Store account data for briefs
+  window._account = a;
+  window._pct = pct;
+  window._activeU = activeU;
+  window._maxEE = maxEE;
+  window._churn = churn;
+  window._modules = modules;
+  window._daysToRenewal = daysToRenewal;
+  window._live = live;
+}
+
+function field(label, val) {
+  return '<div class="field"><div class="label">' + label + '</div><div class="val">' + (val || '—') + '</div></div>';
+}
+
+function mtCard(id, icon, name, desc) {
+  return '<div class="mt-card" id="mt-'+id+'" onclick="selectMeeting(\''+id+'\')"><div class="mt-icon">'+icon+'</div><div class="mt-name">'+name+'</div><div class="mt-desc">'+desc+'</div></div>';
+}
+
+// ── Tabs ──────────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Meeting Prep ──────────────────────────────────────────────
+function selectMeeting(type) {
+  var a = window._account;
+  var pct = window._pct, activeU = window._activeU, maxEE = window._maxEE;
+  var churn = window._churn, modules = window._modules;
+  var dtr = window._daysToRenewal, live = window._live;
+
+  document.querySelectorAll('.mt-card').forEach(function(c){ c.classList.remove('selected'); });
+  document.getElementById('mt-' + type).classList.add('selected');
+
+  var briefs = {
+    renewal: [
+      {t:'Context', c:'Renewal ' + (dtr !== null ? 'in <strong>' + dtr + ' days</strong> (' + a.QUARTER + ')' : 'date: ' + a.MASTER_CONTRACT_END_DATE_C) + '. ARR: <strong>' + a.ARR + '</strong>.'},
+      {t:'Key Data Points', ul:[
+        'ARR: ' + a.ARR,
+        'Renewal: ' + a.MASTER_CONTRACT_END_DATE_C + (dtr !== null ? ' — ' + dtr + ' days away' : ''),
+        'Tenure: ' + (a.TENURE_YEARS ? a.TENURE_YEARS + ' years' : '—'),
+        'Adoption: ' + (pct !== null ? pct + '%' : '—') + ' (' + activeU + '/' + maxEE + ' users)',
+        'Modules: ' + (modules.join(', ') || '—'),
+        churn > 0 ? '⚠️ ' + churn + ' open churn request' + (churn>1?'s':'') : null
+      ]},
+      {t:'Suggested Talking Points', ul:[
+        pct !== null && pct >= 80 ? 'Lead with adoption strength — ' + pct + '% active users shows clear ROI' : 'Address adoption gap (' + (pct||'—') + '%) before renewal push',
+        'Confirm renewal timeline with ' + (a.RENEWAL_MANAGER || 'Renewal Manager'),
+        churn > 0 ? 'Resolve open churn risk before discussing renewal terms' : null,
+        'Review module value and identify gaps',
+        'Explore expansion opportunities post-renewal'
+      ]},
+      {t:'Questions to Ask', ul:[
+        'What does a successful next 12 months look like for your team with Bob?',
+        'Are there any internal blockers affecting adoption?',
+        churn > 0 ? 'What would make you confident enough to move forward with the renewal?' : null
+      ]}
+    ],
+    risk: [
+      {t:'Risk Summary', c:'Health: <strong>' + (a.ACCOUNT_HEALTH_SENTIMENT||'—') + '</strong> &nbsp; Risk: <strong>' + (a.RISK_SEVERITY||'—') + '</strong>' + (a['Risk - DESCRIPTION'] ? '<div class="risk-box" style="margin-top:.5rem">' + a['Risk - DESCRIPTION'] + '</div>' : '')},
+      {t:'Key Data Points', ul:[
+        'Risk Severity: ' + (a.RISK_SEVERITY||'—'),
+        'Open Churn Requests: ' + (a.OPEN_CHURN_REQUESTS||'0'),
+        'Total Risk Items: ' + (a.TOTAL_CUSTOMER_RELATED_RISKS||'0'),
+        'Adoption: ' + (pct !== null ? pct + '%' : '—') + ' (' + activeU + '/' + maxEE + ' users)',
+        'Renewal: ' + (dtr !== null ? dtr + ' days away' : a.MASTER_CONTRACT_END_DATE_C)
+      ]},
+      {t:'Suggested Talking Points', ul:[
+        'Open with empathy — acknowledge challenges raised in CRM',
+        'Present a concrete recovery plan with milestones',
+        pct !== null && pct < 50 ? 'Low adoption (' + pct + '%) — identify top 3 blockers' : null,
+        'Involve Renewal Manager (' + (a.RENEWAL_MANAGER||'—') + ') if churn risk is active'
+      ]},
+      {t:'Questions to Ask', ul:[
+        "What's the biggest pain point your team is experiencing with Bob right now?",
+        'What would "resolved" look like for you in the next 30 days?',
+        'Who else internally should we involve to move this forward?'
+      ]}
+    ],
+    expansion: [
+      {t:'Context', c:'Current ARR: <strong>' + a.ARR + '</strong>. ' + modules.length + ' module' + (modules.length !== 1 ? 's' : '') + ' active. Adoption: ' + (pct !== null ? pct + '%' : '—')},
+      {t:'Current Modules', c:'<div class="modules">' + modules.map(function(m){return '<span class="mod">'+m+'</span>';}).join('') + '</div>'},
+      {t:'Suggested Talking Points', ul:[
+        pct !== null && pct >= 80 ? 'Strong adoption (' + pct + '%) — solid foundation for expansion' : null,
+        churn === 0 ? 'No open churn — good timing for expansion conversation' : null,
+        'Identify unpurchased modules aligned to business needs',
+        'Use tenure (' + (a.TENURE_YEARS ? a.TENURE_YEARS + ' yrs' : '—') + ') as context for strategic growth'
+      ]},
+      {t:'Questions to Ask', ul:[
+        'Are there teams or departments not yet using Bob that could benefit?',
+        'Which HR processes are still manual that Bob could automate?',
+        "What's your hiring plan for the next 12 months?"
+      ]}
+    ],
+    onboarding: [
+      {t:'Context', c:'Live on Bob: <strong>' + (live ? 'Yes' : 'No') + '</strong>. Tenure: ' + (a.TENURE_YEARS ? a.TENURE_YEARS + ' yrs' : '—') + '. Adoption: ' + (pct !== null ? pct + '%' : '—')},
+      {t:'Key Data Points', ul:[
+        'Live status: ' + (live ? 'Active on Bob' : 'Not yet live'),
+        'Modules in scope: ' + (modules.join(', ') || '—'),
+        'Employees: ' + (maxEE || '—'),
+        churn > 0 ? '⚠️ ' + churn + ' open churn request' + (churn>1?'s':'') + ' — escalation flag' : null
+      ]},
+      {t:'Suggested Talking Points', ul:[
+        !live ? 'Align on go-live timeline and blockers' : null,
+        churn > 0 ? 'Address escalation items before onboarding milestones' : null,
+        'Confirm key contacts and internal champions for rollout',
+        'Review module readiness and training needs'
+      ]},
+      {t:'Questions to Ask', ul:[
+        'What is blocking your team from completing the go-live checklist?',
+        'Who is the internal project owner on your side?',
+        'What does a successful first 90 days look like for you?'
+      ]}
+    ]
+  };
+
+  var sections = briefs[type];
+  var meetingNames = {renewal:'Renewal & EBR', risk:'Risk & Adoption', expansion:'Expansion', onboarding:'Onboarding / Escalation'};
+  var html = '<div class="card"><h2>' + {renewal:'📋',risk:'⚠️',expansion:'🚀',onboarding:'🛠️'}[type] + ' ' + meetingNames[type] + ' Brief — ' + a.ACCOUNT_NAME + '</h2>';
+
+  sections.forEach(function(s) {
+    html += '<div class="brief-section"><h3>' + s.t + '</h3>';
+    if (s.c) html += '<p style="font-size:.92rem;margin:.25rem 0">' + s.c + '</p>';
+    if (s.ul) {
+      html += '<ul>';
+      s.ul.forEach(function(item){ if (item) html += '<li>' + item + '</li>'; });
+      html += '</ul>';
+    }
+    html += '</div>';
+  });
+  html += '</div>';
+  document.getElementById('brief-container').innerHTML = html;
+}
+</script>
+</body>
+</html>
