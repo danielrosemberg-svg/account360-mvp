@@ -115,19 +115,19 @@ ORDER BY CreatedDate DESC
 ```sql
 SELECT
   Id,
-  Gong__Title__c,
+  gong_title_c,
   Gong__Call_Key_Points__c,
-  Gong__Start_Time__c,
-  Gong__Participants__c
+  gong_related_participants_json_c,
+  gong_call_start_c
 FROM Gong__Gong_Call__c
 WHERE AccountId = '{ACCOUNT_ID}'
-  AND Gong__Start_Time__c >= LAST_N_DAYS:90
-ORDER BY Gong__Start_Time__c DESC
+ORDER BY gong_call_start_c DESC
 ```
 
-Parse `Gong__Participants__c` (JSON array) to extract:
-- `name` + `title` for each participant
-- `affiliation`: HiBob side vs Customer side (use email domain — `@hibob.io` = HiBob, else = Customer)
+Parse `gong_related_participants_json_c` (JSON array) to extract:
+- `name` + `role` (title) for each participant
+- Classify by email domain: `@hibob.io` → HiBob side, all others → Customer side
+- Show only the 2 most recent calls
 
 ---
 

@@ -516,23 +516,9 @@ ORDER BY ActivityDate DESC
 Called for: **Snapshot**, Renewals & Commercial (RN-04), Risk & Escalation (RS-04, RS-05),
 EBR / QBR & Executive (EBR-05), Onboarding & Kickoff (ON-02), Health Check (HC-03).
 
-Gong call data is synced into Salesforce — no direct Gong API call is made.
+Gong call data is synced into Salesforce via the Gong package — no direct Gong API call is made.
 
-SOQL (try primary field names first; fall back to alternates if query fails):
-```sql
-SELECT
-    Id,
-    Gong__Title__c,
-    Gong__Call_Key_Points__c,
-    Gong__Start_Time__c,
-    Gong__Participants__c
-FROM Gong__Gong_Call__c
-WHERE AccountId = '{ACCOUNT_ID}'
-  AND Gong__Start_Time__c >= LAST_N_DAYS:90
-ORDER BY Gong__Start_Time__c DESC
-```
-
-Alternate field names (older Gong Salesforce package):
+SOQL:
 ```sql
 SELECT
     Id,
@@ -542,20 +528,40 @@ SELECT
     gong_call_start_c
 FROM Gong__Gong_Call__c
 WHERE AccountId = '{ACCOUNT_ID}'
-  AND gong_call_start_c >= LAST_N_DAYS:90
 ORDER BY gong_call_start_c DESC
 ```
 
-| Field Label | API Name (primary) | API Name (alternate) | Purpose |
-|---|---|---|---|
-| Call Title | `Gong__Title__c` | `gong_title_c` | Call topic for brief |
-| Key Points | `Gong__Call_Key_Points__c` | `Gong__Call_Key_Points__c` | Discussion highlights |
-| Participants (JSON) | `Gong__Participants__c` | `gong_related_participants_json_c` | Stakeholder map — parse name + title + email domain |
-| Call Date | `Gong__Start_Time__c` | `gong_call_start_c` | Recency — last 2 calls for Snapshot |
+| Field Label | API Name | Purpose |
+|---|---|---|
+| Call Title | `gong_title_c` | Reference the meeting topic in the brief |
+| Key Points | `Gong__Call_Key_Points__c` | Highlights to surface in Recent Interactions |
+| Participants (JSON) | `gong_related_participants_json_c` | Attendee map — parse name + title + email |
+| Call Date | `gong_call_start_c` | Recency — show last 2 calls for Snapshot |
 
 **Participant parsing rule:**
-Parse participants JSON array. For each entry extract `name`, `title`, `email`.
+Parse `gong_related_participants_json_c` as a JSON array.
+For each entry extract: `name`, `role` (title), `email`.
 Classify by email domain: `@hibob.io` → HiBob side. All others → Customer side.
+
+Output format:
+```json
+{
+  "gong_calls": [
+    {
+      "title": "Q4 Strategy Review",
+      "date": "2025-11-15",
+      "highlights": ["Discussed renewal timeline", "Expressed interest in Surveys module"],
+      "participants": [
+        { "name": "Jane Smith", "role": "HR Director", "email": "jane@acme.com", "side": "Customer" },
+        { "name": "Daniel Rosemberg", "role": "CSM", "email": "daniel@hibob.io", "side": "HiBob" }
+      ]
+    }
+  ]
+}
+```
+
+If no Gong records exist → return `gong_calls: []`.
+Do not block output — fall back to Task interaction log.
 
 Output:
 ```json
