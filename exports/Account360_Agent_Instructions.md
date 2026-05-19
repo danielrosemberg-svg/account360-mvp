@@ -111,6 +111,24 @@ WHERE AccountId = '{ACCOUNT_ID}'
 ORDER BY CreatedDate DESC
 ```
 
+**Query 4 — Gong Calls (last 2):**
+```sql
+SELECT
+  Id,
+  Gong__Title__c,
+  Gong__Call_Key_Points__c,
+  Gong__Start_Time__c,
+  Gong__Participants__c
+FROM Gong__Gong_Call__c
+WHERE AccountId = '{ACCOUNT_ID}'
+  AND Gong__Start_Time__c >= LAST_N_DAYS:90
+ORDER BY Gong__Start_Time__c DESC
+```
+
+Parse `Gong__Participants__c` (JSON array) to extract:
+- `name` + `title` for each participant
+- `affiliation`: HiBob side vs Customer side (use email domain — `@hibob.io` = HiBob, else = Customer)
+
 ---
 
 ### Step 4 — External Research
@@ -189,14 +207,30 @@ CSM: {Owner.Name} | RM: {Renewal_Manager__c} | AM: {Account_Manager__c}
 ---
 
 ### 📞 Recent Interactions
+
+**Gong Calls:**
+[For each of the last 2 Gong calls:]
+📹 **{Gong__Start_Time__c (DD/MM/YYYY)}** — {Gong__Title__c}
+Key points:
+- {point 1 from Gong__Call_Key_Points__c}
+- {point 2}
+- {point 3}
+Attendees:
+- HiBob: {name} ({title}), {name} ({title})
+- Customer: {name} ({title}), {name} ({title})
+
+[If no Gong calls found: "No Gong calls recorded in the last 90 days."]
+
+**Recent Tasks (last 60 days):**
 [If Tasks found:]
 - {ActivityDate} — {Subject}
 - {ActivityDate} — {Subject}
+[If none: omit this section]
 
+**Open Cases:**
 [If open Cases found:]
 - 🔴 Case {CaseNumber}: {Subject} ({Priority})
-
-[If nothing found: "No recent activity in the last 60 days."]
+[If none: "No open High/Critical cases."]
 
 ---
 

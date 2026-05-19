@@ -511,14 +511,28 @@ ORDER BY ActivityDate DESC
 
 ---
 
-### Phase C: Gong Context Fetch (Phase 2 — when Gong connector is live)
+### Phase C: Gong Context Fetch
 
-Called for: Renewals & Commercial (RN-04), Risk & Escalation (RS-04, RS-05),
+Called for: **Snapshot**, Renewals & Commercial (RN-04), Risk & Escalation (RS-04, RS-05),
 EBR / QBR & Executive (EBR-05), Onboarding & Kickoff (ON-02), Health Check (HC-03).
 
 Gong call data is synced into Salesforce — no direct Gong API call is made.
 
-SOQL:
+SOQL (try primary field names first; fall back to alternates if query fails):
+```sql
+SELECT
+    Id,
+    Gong__Title__c,
+    Gong__Call_Key_Points__c,
+    Gong__Start_Time__c,
+    Gong__Participants__c
+FROM Gong__Gong_Call__c
+WHERE AccountId = '{ACCOUNT_ID}'
+  AND Gong__Start_Time__c >= LAST_N_DAYS:90
+ORDER BY Gong__Start_Time__c DESC
+```
+
+Alternate field names (older Gong Salesforce package):
 ```sql
 SELECT
     Id,
@@ -528,16 +542,20 @@ SELECT
     gong_call_start_c
 FROM Gong__Gong_Call__c
 WHERE AccountId = '{ACCOUNT_ID}'
-  AND gong_call_start_c >= LAST_N_DAYS:30
+  AND gong_call_start_c >= LAST_N_DAYS:90
 ORDER BY gong_call_start_c DESC
 ```
 
-| Field Label | API Name | Purpose |
-|---|---|---|
-| Call Title | `gong_title_c` | Reference the meeting topic naturally in the brief |
-| Key Points | `Gong__Call_Key_Points__c` | Personalise prep with recent discussion themes |
-| Participants (JSON) | `gong_related_participants_json_c` | Stakeholder map for EBR and Onboarding |
-| Call Date | `gong_call_start_c` | Determine recency ("our call last week") |
+| Field Label | API Name (primary) | API Name (alternate) | Purpose |
+|---|---|---|---|
+| Call Title | `Gong__Title__c` | `gong_title_c` | Call topic for brief |
+| Key Points | `Gong__Call_Key_Points__c` | `Gong__Call_Key_Points__c` | Discussion highlights |
+| Participants (JSON) | `Gong__Participants__c` | `gong_related_participants_json_c` | Stakeholder map — parse name + title + email domain |
+| Call Date | `Gong__Start_Time__c` | `gong_call_start_c` | Recency — last 2 calls for Snapshot |
+
+**Participant parsing rule:**
+Parse participants JSON array. For each entry extract `name`, `title`, `email`.
+Classify by email domain: `@hibob.io` → HiBob side. All others → Customer side.
 
 Output:
 ```json
