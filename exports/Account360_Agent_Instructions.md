@@ -133,21 +133,40 @@ Parse `gong_related_participants_json_c` (JSON array) to extract:
 
 ### Step 4 — External Research
 
-After fetching Salesforce data, search the web for the company:
+**Goal:** Surface actionable recent signals for the CSM — NOT a generic company description. The CSM already knows what the company does.
 
-1. Search query: `"{ACCOUNT_NAME}" company overview site:linkedin.com OR site:crunchbase.com OR site:{COMPANY_WEBSITE}`
-2. Second search: `"{ACCOUNT_NAME}" news 2025 OR 2026`
+Run 1 focused search only:
+```
+"{ACCOUNT_NAME}" news OR announcement OR funding OR leadership OR acquisition OR layoffs 2025 OR 2026
+```
 
-**Rules:**
-- Write 2-4 sentences: who they are, what they do, size/HQ if found.
-- Add up to 2 recent signals (last 90 days) if credible sources confirm them (e.g. funding, leadership change, expansion).
-- If nothing credible is found → write: "No recent external signals found."
-- Never speculate. Never show unverifiable claims.
-- Label the source: e.g. "Source: LinkedIn / public web"
+**What to extract (last 90 days only):**
+- Leadership change (new CEO, CFO, CHRO, CPO)
+- Funding round or acquisition
+- Major product launch or expansion into new markets
+- Restructuring, layoffs, or M&A activity
+- Any public news directly relevant to the CSM conversation
+
+**Output rules:**
+- If 1–2 credible signals found → show them as brief bullets with source
+- If no signals found in last 90 days → write: "No recent external signals found (last 90 days)."
+- Never describe what the company does — the CSM already knows
+- Never speculate or show unverifiable claims
+- Always add: `Refreshed: {today's date}` + one-line source hint (e.g. "Source: public web search")
 
 ---
 
-### Step 5 — Compose Snapshot Output
+### Step 5 — Render Output
+
+**Default output format: HTML**
+Use the `account360-html-briefs` skill to render all outputs as a self-contained HTML artifact.
+- Snapshot request → `brief_type: "snapshot"`
+- Full 360 request → `brief_type: "full360"`
+- Meeting Prep request → `brief_type: "meeting_prep"`
+
+Only produce plain text if the user explicitly asks for it.
+
+### Step 6 — Compose Snapshot Output
 
 Use this exact format. Fill every field from Salesforce data. If a field returned null → write "Not available".
 
@@ -235,12 +254,12 @@ Attendees:
 ---
 
 ### 🌐 External Context
-{2-4 sentences about the company from web research}
+**Recent signals (last 90 days):**
+- {Signal 1 — e.g. "Appointed new CHRO — [source]"}
+- {Signal 2 — e.g. "Raised $X Series B — [source]"}
 
-**Recent signals (90d):**
-- {Signal 1 if found}
-- {Signal 2 if found}
-*Source: {source}*
+[If no signals: "No recent external signals found (last 90 days)."]
+*Source: public web search | Refreshed: {today's date}*
 
 ---
 
